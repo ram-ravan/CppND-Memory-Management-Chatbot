@@ -31,7 +31,7 @@ ChatLogic::~ChatLogic()
 {
     //// STUDENT CODE
     ////
-
+    
     // delete chatbot instance
     delete _chatBot;
 

@@ -17,6 +17,7 @@ private:
     GraphNode *_currentNode;
     GraphNode *_rootNode;
     ChatLogic *_chatLogic;
+    int i = 0;
 
     // proprietary functions
     int ComputeLevenshteinDistance(std::string s1, std::string s2);
