@@ -12,6 +12,7 @@
 ChatBot::ChatBot()
 {
     // invalidate data handles
+    std::cout << "ChatBot Default Constructor" << std::endl;
     _image = nullptr;
     _chatLogic = nullptr;
     _rootNode = nullptr;
@@ -20,7 +21,7 @@ ChatBot::ChatBot()
 // constructor WITH memory allocation
 ChatBot::ChatBot(std::string filename)
 {
-    std::cout << "ChatBot Constructor" << std::endl;
+    std::cout << "ChatBot Paramterised Constructor" << std::endl;
     
     // invalidate data handles
     _chatLogic = nullptr;
@@ -33,9 +34,8 @@ ChatBot::ChatBot(std::string filename)
 ChatBot::~ChatBot()
 {
     std::cout << "ChatBot Destructor" << std::endl;
-    i++;
     // deallocate heap memory
-    if(_image != NULL && i==1) // Attention: wxWidgets used NULL and not nullptr
+    if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
         delete _image;
         _image = NULL;
