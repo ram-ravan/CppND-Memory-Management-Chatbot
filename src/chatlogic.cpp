@@ -161,8 +161,16 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 
                             // create new edge
                             GraphEdge *edge = new GraphEdge(id);
-                            edge->SetChildNode(*childNode);
-                            edge->SetParentNode(*parentNode);
+                            //Create new pair so that the the pair is passed as argument protecting the instance of GraphNode
+                            std::pair<int, std::vector<std::string>>* parentNodeParam;
+                            std::pair<int, std::vector<std::string>>* childNodeParam;
+                            (*parentNodeParam).first = parentNode->GetID();
+                            (*parentNodeParam).second = parentNode->GetAnswers();
+                            (*childNodeParam).first = childNode->GetID();
+                            (*childNodeParam).second = childNode->GetAnswers();
+
+                            edge->SetChildNode((GraphNode*)parentNodeParam); //typecast pair to GraphNode as the argument to be passed should be of type GraphNode
+                            edge->SetParentNode((GraphNode*)childNodeParam);
                             _edges.push_back(edge);
 
                             // find all keywords for current node
@@ -196,12 +204,15 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     //// STUDENT CODE
     ////
 
-    // identify root node
-    std::unique_ptr<GraphNode> rootNode = nullptr;
+    // identify root node //Create new pair so that the the pair is passed as argument protecting the instance of GraphNode
+    std::pair<int, std::vector<std::string>>* rootNode = nullptr;
     for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
-    {
+    {   
+        std::pair<int, std::vector<std::string>> iter;
+        iter.first = it->getID();
+        iter.second = it->GetAnswers();
         // search for nodes which have no incoming edges
-        if ((*it)->GetNumberOfParents() == 0)
+        if ((*iter)->GetNumberOfParents() == 0)
         {
 
             if (rootNode == nullptr)
@@ -216,7 +227,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     }
 
     // add chatbot to graph root node
-    _chatBot->SetRootNode(rootNode);
+    _chatBot->SetRootNode((GraphNode*)rootNode);
     rootNode->MoveChatbotHere(_chatBot);
     
     ////
