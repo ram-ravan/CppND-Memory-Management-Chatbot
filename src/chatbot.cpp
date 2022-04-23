@@ -12,16 +12,17 @@
 ChatBot::ChatBot()
 {
     // invalidate data handles
-    std::cout << "ChatBot - Default Constructor" << std::endl;
+    //std::cout << "ChatBot - Default Constructor" << std::endl;
     _image = nullptr;
     _chatLogic = nullptr;
     _rootNode = nullptr;
+    //_chatLogic->SetChatbotHandle(this);
 }
 
 // constructor WITH memory allocation
 ChatBot::ChatBot(std::string filename)
 {
-    std::cout << "ChatBot - Paramterised Constructor" << std::endl;
+    std::cout << "ChatBot - Constructor" << std::endl;
     
     // invalidate data handles
     _chatLogic = nullptr;
@@ -29,7 +30,9 @@ ChatBot::ChatBot(std::string filename)
 
     // load image into heap memory
     _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
+    //_chatLogic->SetChatbotHandle(this);
 }
+// ChatBot destructor
 
 ChatBot::~ChatBot()
 {
@@ -38,69 +41,138 @@ ChatBot::~ChatBot()
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
         delete _image;
-        _image = NULL;
+        delete _currentNode;
+        delete _rootNode;
+        //delete _chatLogic;
+        //_chatLogic->SetChatbotHandle(this);
     }
 }
 
 //// STUDENT CODE
 ////
-ChatBot::ChatBot(const ChatBot &source)
-{
-    std::cout << "ChatBot - COPY CONSTRUCTOR\n";
-   _currentNode = source._currentNode;
-   _rootNode = source._rootNode;
-   _chatLogic = source._chatLogic;
-   _image = source._image;
-}
 
-ChatBot& ChatBot::operator=(const ChatBot &source) // &
-{
-    std::cout << "ChatBot - COPY ASSIGNMENT OPERATOR";
-    if(this == &source)
-        return *this;
-    delete _currentNode;
-    delete _rootNode;
-    delete _chatLogic;
-    delete _image;
+// ChatBot copy constructor
+
+ChatBot::ChatBot(const ChatBot &source) {
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+    _image = new wxBitmap();
+    *_image = *source._image;
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
     _chatLogic = source._chatLogic;
-    _image = source._image;
+    _chatLogic->SetChatbotHandle(this);
+}
+// ChatBot::ChatBot(const ChatBot &source)
+// {
+//     std::cout << "ChatBot - COPY CONSTRUCTOR\n";
+//    _currentNode = source._currentNode;
+//    _rootNode = source._rootNode;
+//    _chatLogic = source._chatLogic;
+//    _image = source._image;
+//    //_chatLogic->SetChatbotHandle(this);
+// }
+
+// ChatBot copy assignment operator
+
+ChatBot& ChatBot::operator=(const ChatBot &source) {
+    std::cout << "ChatBot Copy Assignment Operator" << std::endl;
+    if(this == &source) { return *this; }
+    _image = new wxBitmap();
+    *_image = *source._image;
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     return *this;
 }
 
-ChatBot::ChatBot(ChatBot &&source)
-{
-    std::cout << "ChatBot - MOVE CONSTRUCTOR";
-    _currentNode = source._currentNode;
-    _rootNode = source._rootNode;
-    _chatLogic = source._chatLogic;
-    source._currentNode = nullptr;
-    source._rootNode = nullptr;
-    source._chatLogic = nullptr;
-    _image = source._image;
-    source._image = nullptr;
-}
+// ChatBot& ChatBot::operator=(const ChatBot &source) // &
+// {
+//     std::cout << "ChatBot - COPY ASSIGNMENT OPERATOR";
+//     if(this == &source)
+//         return *this;
+//     delete _currentNode;
+//     delete _rootNode;
+//     delete _chatLogic;
+//     delete _image;
+//     _currentNode = source._currentNode;
+//     _rootNode = source._rootNode;
+//     _chatLogic = source._chatLogic;
+//     _image = source._image;
+//     //_chatLogic->SetChatbotHandle(this);
+//     return *this;
+// }
 
-ChatBot& ChatBot::operator=(ChatBot &&source)  // &
-{
-    std::cout << "ChatBot - MOVE ASSIGNMENT OPERATOR";
-        if(this == &source)
-        return *this;
-    delete _currentNode;
-    delete _rootNode;
-    delete _chatLogic;
-    delete _image;
+// ChatBot move constructor
+
+ChatBot::ChatBot(ChatBot &&source) {
+    std::cout << "ChatBot Move Constructor" << std::endl;
+    
+    _image = source._image;
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
     _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
+    //delete source._image;
+    source._image = NULL;
     source._currentNode = nullptr;
     source._rootNode = nullptr;
     source._chatLogic = nullptr;
+}
+// ChatBot::ChatBot(ChatBot &&source)
+// {
+//     std::cout << "ChatBot - MOVE CONSTRUCTOR";
+//     _currentNode = source._currentNode;
+//     _rootNode = source._rootNode;
+//     _chatLogic = source._chatLogic;
+//     source._currentNode = nullptr;
+//     source._rootNode = nullptr;
+//     source._chatLogic = nullptr;
+//     _image = source._image;
+//     source._image = nullptr;
+//     _chatLogic->SetChatbotHandle(this);
+// }
+
+// ChatBot move assignment operator
+
+ChatBot& ChatBot::operator=(ChatBot &&source) {
+    std::cout << "ChatBot Move Assignment operator" << std::endl;
+    if(this == &source) { return *this; }
+    
     _image = source._image;
-    source._image = nullptr;
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
+    //delete source._image;
+    source._image = NULL;
+    source._currentNode = nullptr;
+    source._rootNode = nullptr;
+    source._chatLogic = nullptr;
+    
     return *this;
 }
+
+// ChatBot& ChatBot::operator=(ChatBot &&source)  // &
+// {
+//     std::cout << "ChatBot - MOVE ASSIGNMENT OPERATOR";
+//         if(this == &source)
+//         return *this;
+//     delete _currentNode;
+//     delete _rootNode;
+//     delete _chatLogic;
+//     delete _image;
+//     _currentNode = source._currentNode;
+//     _rootNode = source._rootNode;
+//     _chatLogic = source._chatLogic;
+//     source._currentNode = nullptr;
+//     source._rootNode = nullptr;
+//     source._chatLogic = nullptr;
+//     _image = source._image;
+//     source._image = nullptr;
+//     _chatLogic->SetChatbotHandle(this);
+//     return *this;
+// }
 ////
 //// EOF STUDENT CODE
 
