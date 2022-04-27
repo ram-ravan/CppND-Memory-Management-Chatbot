@@ -12,7 +12,7 @@
 ChatBot::ChatBot()
 {
     // invalidate data handles
-    std::cout << "ChatBot - Default Constructor" << std::endl;
+   // std::cout << "ChatBot - Default Constructor" << std::endl;
     _image = nullptr;
     _chatLogic = nullptr;
     _rootNode = nullptr;
