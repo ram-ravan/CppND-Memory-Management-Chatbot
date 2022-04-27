@@ -12,7 +12,7 @@
 ChatBot::ChatBot()
 {
     // invalidate data handles
-    //std::cout << "ChatBot - Default Constructor" << std::endl;
+    std::cout << "ChatBot - Default Constructor" << std::endl;
     _image = nullptr;
     _chatLogic = nullptr;
     _rootNode = nullptr;
@@ -43,8 +43,7 @@ ChatBot::~ChatBot()
         delete _image;
         delete _currentNode;
         delete _rootNode;
-        //delete _chatLogic;
-        //_chatLogic->SetChatbotHandle(this);
+        delete _chatLogic;
     }
 }
 
@@ -55,7 +54,7 @@ ChatBot::~ChatBot()
 
 ChatBot::ChatBot(const ChatBot &source) {
     std::cout << "ChatBot Copy Constructor" << std::endl;
-    _image = new wxBitmap();
+    _image = new wxBitmap(); ////////////////////////////////////////////////////////////////71111111111111111111111111111111111111111111111111111111111
     *_image = *source._image;
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
@@ -77,7 +76,7 @@ ChatBot::ChatBot(const ChatBot &source) {
 ChatBot& ChatBot::operator=(const ChatBot &source) {
     std::cout << "ChatBot Copy Assignment Operator" << std::endl;
     if(this == &source) { return *this; }
-    _image = new wxBitmap();
+    _image = new wxBitmap(); ////////////////////////////////////////////////////////////////71111111111111111111111111111111111111111111111111111111111
     *_image = *source._image;
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
