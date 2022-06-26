@@ -1,4 +1,4 @@
-# CPPND: Memory Management Chatbot
+# Memory Management Chatbot
 
 The ChatBot code creates a dialogue where users can ask questions about some aspects of memory management in C++. After the knowledge base of the chatbot has been loaded from a text file, a knowledge graph representation is created in computer memory, where chatbot answers represent the graph nodes and user queries represent the graph edges. After a user query has been sent to the chatbot, the Levenshtein distance is used to identify the most probable answer. The code is focused on using various C++ Memory Management features such as Move Semantics, Smart Pointers etc. The [starter code](https://github.com/udacity/CppND-Memory-Management-Chatbot) for this project is provided by Udacity as a part of C++ nanodegree program.
 
